@@ -31,7 +31,7 @@ variable "ec2_key_name" {
 }
 
 variable "alb_name" {
-    default = "secure-data-vault-alb"
+    default = "secure_data_vault-alb"
     description = "alb name"
     type = string
 }
@@ -43,7 +43,7 @@ variable "aws_cognito_user_pool_name" {
 }
 
 variable "aws_cognito_user_pool_client_name" {
-    default = "my-data-vault-app"
+    default = "my-data_vault-app"
     description = "cognito user pool client name"
     type = string
 }
