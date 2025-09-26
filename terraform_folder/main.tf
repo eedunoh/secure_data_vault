@@ -16,7 +16,7 @@ resource  "aws_vpc" "main" {
 }
 
 # Before you run the pipeline via auto/manual push, make sure you create an S3 bucket to store terraform state files and dynamodb_table for state lock. The name Should match
-# Use these code to quickly create the S3 and dynamodb_table
+# Use these codes to quickly create the S3 and dynamodb_table
 
 # S3 (copy the code below):
 
