@@ -50,6 +50,10 @@ def upload_file():
 
     if not file or not tag:
         return jsonify({"error": "File and tag are required"}), 400
+    
+    # Check for spaces or invalid characters in filename
+    if " " in file.filename or not file.filename.strip():
+        return jsonify({"error": "Invalid file name: spaces are not allowed in filename."}), 400
 
     try:
         # Use the tag format expected by the Lambda function: 'sensitive=true'
