@@ -58,6 +58,16 @@
         .logout:hover {
             background-color: #d32f2f;
         }
+        #error-message {
+            color: red;
+            margin-bottom: 10px;
+            min-height: 20px;
+        }
+        #success-message {
+            color: green;
+            margin-bottom: 10px;
+            min-height: 20px;
+        }
     </style>
 </head>
 <body>
@@ -65,6 +75,10 @@
     <div class="container">
         <h1>Welcome, {{ username }}</h1>
         <h2>Upload a File</h2>
+
+        <!-- Error / Success messages -->
+        <div id="error-message"></div>
+        <div id="success-message"></div>
 
         <div class="input-group">
             <label for="file">Select File:</label>
@@ -74,8 +88,8 @@
         <div class="input-group">
             <label for="fileTag">Select Sensitivity:</label>
             <select id="fileTag">
-                <option value="false">Non-Sensitive</option>    <!-- value = false, then file is Non sensitive -->
-                <option value="true">Sensitive</option>         <!-- value = true, then file is sensitive -->
+                <option value="false">Non-Sensitive</option>
+                <option value="true">Sensitive</option>
             </select>
         </div>
 
@@ -87,12 +101,25 @@
 
     <script>
         function uploadFile() {
+            let errorDiv = document.getElementById("error-message");
+            let successDiv = document.getElementById("success-message");
+
             let fileInput = document.getElementById("file");
             let fileTag = document.getElementById("fileTag").value;
             let file = fileInput.files[0];
 
+            // Clear previous messages
+            errorDiv.textContent = "";
+            successDiv.textContent = "";
+
+            // Client-side validations
             if (!file) {
-                alert("❌ Please select a file to upload.");
+                errorDiv.textContent = "❌ Please select a file to upload.";
+                return;
+            }
+
+            if (file.name.includes(" ")) {
+                errorDiv.textContent = "❌ Invalid file name: spaces are not allowed in filename.";
                 return;
             }
 
@@ -106,10 +133,15 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert(data.message || "✅ File uploaded successfully!");
+                if (data.error) {
+                    errorDiv.textContent = "⚠️ " + data.error;
+                } else {
+                    successDiv.textContent = "✅ File uploaded successfully!";
+                    fileInput.value = ""; // Reset file input
+                }
             })
             .catch(error => {
-                alert("⚠️ Error uploading: " + error);
+                errorDiv.textContent = "⚠️ Error uploading: " + error;
             });
         }
     </script>
