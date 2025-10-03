@@ -12,7 +12,7 @@
 
 
 
-# Create a role that grant permissions to lambda to carryout actions on s3
+# Create a role that grant permissions to lambda to carryout actions on s3 bucket
 
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_role_for_lambda"
